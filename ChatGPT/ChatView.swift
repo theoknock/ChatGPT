@@ -9,67 +9,53 @@ import SwiftUI
 
 struct ChatView: View {
     @ObservedObject var chatData: ChatData
-    @State private var lastMessageId: String?
+    @State private var message_id: String?
     
     var body: some View {
         ScrollViewReader { scrollView in
-            List(chatData.messages) { message in
-                let message_id = message.id
-                
-                Section {
-                    HStack(alignment: .bottom, spacing: 0.0, content: {
-                        Text(message.prompt)
-                            .font(.body).fontWeight(.ultraLight)
+            Section {
+                List(chatData.messages) { message in
+                    Section {
+                        HStack(alignment: .bottom, spacing: 0.0, content: {
+                            Text(message.prompt)
+                                .font(.body).dynamicTypeSize(.large)
+                                .font(.body).fontWeight(.thin)
                             
-                    })
-                    .listRowBackground(
-                        UnevenRoundedRectangle(cornerRadii: RectangleCornerRadii(topLeading: 25.0, bottomLeading: 0.0, bottomTrailing: 0.0, topTrailing: 25.0))
-                            .strokeBorder(Color.init(uiColor: .gray).opacity(0.25), lineWidth: 1.0)
-                        //                            .shadow(color: Color.gray, radius: 3.0)
-                    )
-                    
-                    HStack(alignment: .top, spacing: 0.0, content: {
-                        Text(message.response)
-                            .font(.body).fontWeight(.light)
-                    })
-                    .listRowBackground(
-                        UnevenRoundedRectangle(cornerRadii: RectangleCornerRadii(topLeading: 0.0, bottomLeading: 25.0, bottomTrailing: 25.0, topTrailing: 0.0))
-                            .fill(Color.init(uiColor: .gray).opacity(0.25))
-                        //                            .shadow(color: Color.gray, radius: 3.0)
-                    )
+                        })
+                        .listRowBackground(
+                            UnevenRoundedRectangle(cornerRadii: RectangleCornerRadii(topLeading: 25.0, bottomLeading: 0.0, bottomTrailing: 0.0, topTrailing: 25.0))
+                                .strokeBorder(Color.init(uiColor: .gray).opacity(0.25), lineWidth: 1.0)
+                            //                            .shadow(color: Color.gray, radius: 3.0)
+                        )
+                        
+                        HStack(alignment: .top, spacing: 0.0, content: {
+                            Text(message.response)
+                                .font(.body).dynamicTypeSize(.large)
+                                .font(.body).fontWeight(.light)
+                        })
+                        .listRowBackground(
+                            UnevenRoundedRectangle(cornerRadii: RectangleCornerRadii(topLeading: 0.0, bottomLeading: 25.0, bottomTrailing: 25.0, topTrailing: 0.0))
+                                .fill(Color.init(uiColor: .gray).opacity(0.25))
+                            //                            .shadow(color: Color.gray, radius: 3.0)
+                        )
+                    }
+                    .listSectionSpacing(25.0)
+                    .id(message.id)
                 }
-                .listSectionSpacing(25.0)
-                .id(message_id)
-//                .task {
-//                    if message_id == chatData.messages.last?.id {
-//                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-//                            scrollView.scrollTo(message_id, anchor: .bottom)
-//                        }
-//                    }
-//                }
-//                .task {
-//                    if message_id == chatData.messages.last?.id {
-//                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-//                            scrollView.scrollTo(message_id, anchor: .bottom)
-//                        }
-//                    }
-//                }
+                .listStyle(.plain)
+                .listRowSpacing(0)
+                .scrollContentBackground(.hidden)
+                .onAppear(perform: {
+                    if message_id == chatData.messages.last?.id {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                            scrollView.scrollTo(message_id, anchor: .bottom)
+                        }
+                    }
+                })
             }
-            .listStyle(.plain)
-            .listRowSpacing(0)
-            .scrollContentBackground(.hidden)
-            .onAppear {
-                lastMessageId = chatData.messages.last?.id
-            }
-            .onChange(of: chatData.messages) { _ in
-                lastMessageId = chatData.messages.last?.id
-            }
-            .onOrientationChange {
-                if let lastMessageId = lastMessageId {
-                    scrollView.scrollTo(lastMessageId, anchor: .bottom)
-                }
-            }
+            
         }
+        
     }
 }
 

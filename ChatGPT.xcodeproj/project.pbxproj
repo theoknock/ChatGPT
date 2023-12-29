@@ -20,6 +20,7 @@
 		B97C4D1A2B3E0F3D00A9A34A /* P190_GlassShape.swift in Sources */ = {isa = PBXBuildFile; fileRef = B97C4D132B3E0F3D00A9A34A /* P190_GlassShape.swift */; };
 		B97C4D1B2B3E0F3D00A9A34A /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B97C4D142B3E0F3D00A9A34A /* ChatView.swift */; };
 		B97C4D1C2B3E0F3D00A9A34A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B97C4D152B3E0F3D00A9A34A /* ContentView.swift */; };
+		B9EBA2842B3E473F005214DA /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9EBA2832B3E473F005214DA /* HeaderView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,8 +57,9 @@
 		B97C4D112B3E0F3D00A9A34A /* NeuromorphismView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NeuromorphismView.swift; sourceTree = "<group>"; };
 		B97C4D122B3E0F3D00A9A34A /* MessageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
 		B97C4D132B3E0F3D00A9A34A /* P190_GlassShape.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = P190_GlassShape.swift; sourceTree = "<group>"; };
-		B97C4D142B3E0F3D00A9A34A /* ChatView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
+		B97C4D142B3E0F3D00A9A34A /* ChatView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; wrapsLines = 0; };
 		B97C4D152B3E0F3D00A9A34A /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		B9EBA2832B3E473F005214DA /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +112,7 @@
 			children = (
 				B97C4CE12B3E0ED100A9A34A /* ChatGPTApp.swift */,
 				B97C4D142B3E0F3D00A9A34A /* ChatView.swift */,
+				B9EBA2832B3E473F005214DA /* HeaderView.swift */,
 				B97C4D152B3E0F3D00A9A34A /* ContentView.swift */,
 				B97C4D122B3E0F3D00A9A34A /* MessageView.swift */,
 				B97C4D112B3E0F3D00A9A34A /* NeuromorphismView.swift */,
@@ -287,6 +290,7 @@
 				B97C4D1B2B3E0F3D00A9A34A /* ChatView.swift in Sources */,
 				B97C4CE22B3E0ED100A9A34A /* ChatGPTApp.swift in Sources */,
 				B97C4D192B3E0F3D00A9A34A /* MessageView.swift in Sources */,
+				B9EBA2842B3E473F005214DA /* HeaderView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

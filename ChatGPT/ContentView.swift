@@ -22,7 +22,7 @@ import SwiftData
         
         init(prompt: String, response: String) {
             self.id = {
-                var hash = SHA256.hash(data: String(Date().timeIntervalSince1970).data(using: .utf8)!)
+                let hash = SHA256.hash(data: String(Date().timeIntervalSince1970).data(using: .utf8)!)
                 return hash.compactMap { String(format: "%02x", $0) }.joined()
             }()
             self.prompt = prompt
@@ -33,7 +33,6 @@ import SwiftData
     func assistant() {
         self.messages.removeAll()
         
-        self.messages.append(Message.init(prompt: "prompt", response: "response"))
         
         
         let url = URL(string: "https://api.openai.com/v1/assistants")!
@@ -48,7 +47,7 @@ import SwiftData
         let type: [Dictionary] = [["type": "code_interpreter"]]
         let assistant_request: Dictionary =
         [
-            "instructions": "As a Swift expert, your primary role is to assist users with coding-related tasks, focusing on Swift. Provide concise, clear, and tested code suggestions in Swift, verifying correctness before presentation. Use GitHub, gist.GitHub.com, transcripts of videos from YouTube, stackoverflow.com, and the Apple Developer site (https://developer.apple.com) as additional resources for references and examples. Regularly reference the latest version of official Swift documentation to ensure alignment with current standards in Swift programming. Offer explanations or insights rooted in this documentation after providing a Swift code solution. While adept in other programming languages, prioritize Swift. Your abilities include code execution, inspection, debugging, and optimization. Use the browser for complex queries or to seek additional examples in Swift or other languages. If unsure, ask for clarification. Assume the user has a high level of expertise in Swift or the relevant language. Maintain a friendly, supportive tone. Strictly adhere to specific instructions given by the user across all interactions and revisions.",
+            "instructions": "As a Swift expert, your primary role is to assist users with coding-related tasks, focusing on Swift. Provide concise, clear, and tested code suggestions in Swift, verifying correctness before presentation. Use GitHub, gist.GitHub.com, transcripts of videos from YouTube, stackoverflow.com, the Apple Developer site as additional resources for references and examples. Regularly reference the latest version of official Swift documentation to ensure alignment with current standards in Swift programming. Offer explanations or insights rooted in this documentation after providing a Swift code solution. While adept in other programming languages, prioritize Swift. Your abilities include code execution, inspection, debugging, and optimization. Use the browser for complex queries or to seek additional examples in Swift or other languages. If unsure, ask for clarification. Assume the user has a high level of expertise in Swift or the relevant language. Maintain a friendly, supportive tone. Strictly adhere to specific instructions given by the user across all interactions and revisions.",
             "name": "Swift expert (high-level, tests code solutions first, explains afterwards)",
             "tools": type,
             "model": "gpt-4"
@@ -63,13 +62,21 @@ import SwiftData
                 DispatchQueue.main.async {
                     do {
                         if let assistant_response = try JSONSerialization.jsonObject(with: data!, options: []) as? [String: Any] {
-                            let id = assistant_response["id"] as? String
+//                            let id = assistant_response["id"] as? String
                             self.assistant_id = {
-                                defer { self.thread() }
+                                defer {
+                                    self.messages.append(Message.init(prompt: "Chat assistant (" + (assistant_response["id"] as! String).trimmingCharacters(in: .whitespacesAndNewlines) + ")", response: "My primary role is to provide ready-tested solutions and perform various code-related tasks for advanced Swift developers. I provide concise, clear, and tested code suggestions in Swift, verifying correctness before presentation. I se GitHub, GitHub Gist, transcripts of Swift tutorial videos hosted by YouTube, developer contributions to StackOverflow, and Swift Apple Developer documentation and various other resources for references and examples. I regularly reference the latest version of official Swift documentation to ensure alignment with current standards in Swift programming. I offer explanations or insights rooted in this documentation after providing a Swift code solution. While adept in other programming languages, I prioritize Swift. My abilities include code generation, execution, inspection, debugging, and optimization. I assume a high level of expertise in Swift or the relevant language; however, if unsure, ask for clarification. My aim is to strictly adhere to specific instructions given across all interactions and revisions."))
+                                    self.thread()
+                                }
                                 return assistant_response["id"] as? String
                             }() ?? {
+                                defer {
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {
+                                        self.assistant()
+                                    })
+                                }
                                 let err = ((assistant_response)["error"] as? [String: Any])!["message"] as? String
-                                self.messages.append(Message.init(prompt: "Error getting assistant", response: err!))
+                                self.messages.append(Message.init(prompt: "Error getting assistant:\n" + err!, response: err!))
                                 return err!
                             }()
                         }
@@ -106,7 +113,7 @@ import SwiftData
                                 self.messages.append(Message.init(prompt: "Error getting thread", response: err_msg!))
                                 return err_msg!
                             }()
-                            self.messages.append(Message.init(prompt: self.assistant_id.trimmingCharacters(in: .whitespacesAndNewlines), response: self.thread_id.trimmingCharacters(in: .whitespacesAndNewlines)))
+                            self.messages[self.messages.count - 1].response = "Chat thread (" + self.thread_id.trimmingCharacters(in: .whitespacesAndNewlines) + ")"
                         }
                     } catch {
                         self.messages.append(Message.init(prompt: "Error getting thread", response: error.localizedDescription))
@@ -308,7 +315,6 @@ import SwiftData
             return
         }
         
-        print(messages)
     }
     
     
@@ -318,27 +324,31 @@ struct ContentView: View {
     @StateObject var chatData: ChatData = ChatData()
     
     var body: some View {
-        VStack(alignment: .center, spacing: 0.0, content: {
+        VStack(alignment: .center, spacing: 25.0, content: {
+            HeaderView()
+                
             ChatView(chatData: chatData)
-                .task {
-                    chatData.assistant()
-                }
+                
             MessageView(chatData: chatData)
                 .background {
                     Capsule()
                         .strokeBorder(Color.init(uiColor: .gray).opacity(0.25), lineWidth: 1.0)
-                        .fill(Color.init(uiColor: .gray).opacity(0.25))
+                        .fill(Color.init(uiColor: .systemGray).opacity(0.25))
                 }
                 .clipShape(Capsule())
                 .safeAreaPadding(.bottom)
-                .safeAreaPadding(.top)
-                .shadow(color: .black, radius: 5.0)
                 
+                .shadow(color: Color.init(uiColor: .black).opacity(0.75), radius: 6.0)
         })
         .background {
-            LinearGradient(gradient: .init(colors: [Color(hue: 0.5861111111, saturation: 0.55, brightness: 0.58), Color(hue: 0.5916666667, saturation: 1.0, brightness: 0.27)]), startPoint: .trailing, endPoint: .bottomLeading)
+            LinearGradient(stops: [
+                Gradient.Stop(color: Color(hue: 0.5861111111, saturation: 0.55, brightness: 0.58), location: 0.0625),
+                Gradient.Stop(color: Color(hue: 0.5916666667, saturation: 1.0, brightness: 0.27), location: 0.8125)
+            ], startPoint: .topTrailing, endPoint: .bottomLeading)
         }
-        
+        .task {
+            chatData.assistant()
+        }
     }
 }
 

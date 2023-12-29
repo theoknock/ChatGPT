@@ -17,7 +17,7 @@ struct MessageView: View {
         HStack(alignment: .center, spacing: 0.0) {
             TextField(("Message ChatGTP..."), text: $prompt, axis: .vertical)
                 .focused($isTextFieldFocused)
-                .font(.body).dynamicTypeSize(.xLarge)
+                .font(.body).dynamicTypeSize(.large)
                 .fontWeight(isTextFieldFocused ? .light : .ultraLight)
                 .lineLimit(1, reservesSpace: false)
                 .lineSpacing(1.0)
