@@ -33,33 +33,18 @@ fileprivate
 struct GlassBackground: View {
     var body: some View {
         GeometryReader { proxy in
-            Circle()
-                .fill(LinearGradient(colors: [Color.white,
-                                              Color(#colorLiteral(red: 0.8745391965, green: 0.8059151769, blue: 0.5692914128, alpha: 1))],
+            RoundedRectangle(cornerSize: CGSize(width: 15.0, height: 15.0))
+                .fill(LinearGradient(colors: [Color.white, Color(uiColor: UIColor(Color(hue: 214.0/360.0, saturation: 0.76, brightness: 0.74)))],
                                      startPoint: .topLeading,
                                      endPoint: .bottomTrailing))
-                .frame(width: 160, height: 160)
-                .position(x: proxy.size.width * 0.3, y: proxy.size.height * 0.65)
-            
-            Circle()
-                .fill(LinearGradient(colors: [Color(#colorLiteral(red: 0.4453554153, green: 0.8331344724, blue: 0.9538539052, alpha: 1)),
-                                              Color(#colorLiteral(red: 0.3030822277, green: 0.6314095855, blue: 0.9446666241, alpha: 1))],
-                                     startPoint: .topLeading,
-                                     endPoint: .bottomTrailing))
-                .frame(width: 280, height: 280)
-                .position(x: proxy.size.width * 0.6, y: proxy.size.height * 0.4)
-            
-            Circle()
-                .fill(LinearGradient(colors: [Color(#colorLiteral(red: 0.7405367494, green: 0.361433506, blue: 0.5888115168, alpha: 1)),
-                                              Color(#colorLiteral(red: 0.8903778791, green: 0.4748723507, blue: 0.3938084245, alpha: 1))],
-                                     startPoint: .topLeading,
-                                     endPoint: .bottomTrailing))
-                .frame(width: 100, height: 100)
-                .position(x: proxy.size.width * 0.7, y: proxy.size.height * 0.65)
+                .frame(width: proxy.size.width * 0.875, height: proxy.size.height * 0.125)
+                .position(x: proxy.size.width * 0.5, y: proxy.size.height * 0.5)
+
         }
-        .background(LinearGradient(colors: [Color.white, Color(uiColor: UIColor(Color(hue: 214.0/360.0, saturation: 0.76, brightness: 0.74)))],
-                                   startPoint: .topLeading,
-                                   endPoint: .bottomTrailing))
+        .background(LinearGradient(stops: [
+            Gradient.Stop(color: Color(hue: 0.5861111111, saturation: 0.55, brightness: 0.58), location: 0.1),
+            Gradient.Stop(color: Color(hue: 0.5916666667, saturation: 1.0, brightness: 0.27), location: 0.9)
+        ], startPoint: .bottomLeading, endPoint: .topTrailing))
     }
 }
 
@@ -116,9 +101,7 @@ struct CardOverlayView: View {
                                     .symbolRenderingMode(.hierarchical)
                                     .font(.largeTitle)
                                     .imageScale(.large)
-                                    .labelStyle(.iconOnly)
-        //                            .clipShape(Circle())
-                            })
+                                    .labelStyle(.iconOnly)                            })
                             .background(
                                 Circle()
                                     .fill(Color(#colorLiteral(red: 0.2714048326, green: 0.3794743717, blue: 0.5048485994, alpha: 1)))
@@ -131,27 +114,12 @@ struct CardOverlayView: View {
                             RoundedRectangle(cornerRadius: 16)
                                 .strokeBorder(LinearGradient(colors: [Color.white.opacity(0.3), Color.white.opacity(0), Color.white.opacity(0.3)], startPoint: .topLeading, endPoint: .bottomTrailing), lineWidth: 1)
                         )
-                        
-        //                .background(
-        //                    RoundedRectangle(cornerSize: CGSize(width: 25, height: 25), style: .continuous)
-        //                        .fill(Color(#colorLiteral(red: 0.2714048326, green: 0.3794743717, blue: 0.5048485994, alpha: 1)))
-        //                        .modifier(NeumorphismModifier())
-        //                )
-                        //                .background(
-                        //                    RoundedRectangle(cornerSize: CGSize(width: 25, height: 25), style: .continuous)
-                        //                        .fill(Color(#colorLiteral(red: 0.2714048326, green: 0.3794743717, blue: 0.5048485994, alpha: 1)))
-                        //                        .modifier(NeumorphismModifier())
-                        //                )
-                        //                .clipShape(/*RoundedRectangle(cornerSize: CGSize(width: 25, height: 25), style: .continuous)*/)
                     }
                     
                 }
                 .foregroundColor(Color.white.opacity(0.5))
             }
         }
-//        .frame(idealWidth: UIScreen.main.bounds.width, idealHeight: UIScreen.main.bounds.height * 0.125)
-//        .fixedSize(horizontal: false, vertical: true)
-//        .safeAreaPadding(.bottom)
     }
 }
 

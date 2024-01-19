@@ -5,6 +5,10 @@
 //  Created by Xcode Developer on 12/8/23.
 //
 
+
+//Bearer sk-ZT4z4AaIugoE7aIdNSM0T3BlbkFJtoLodt9mJ1Jmwq2EPJ2hsk-PLHtIjMBpKlYKlSdkubXT3BlbkFJ7cRMuB8iajUFjwlHZaeQ
+//org-jGOqXYFRJHKlnkff8K836fK2
+
 import SwiftUI
 import CryptoKit
 import SwiftData
@@ -14,6 +18,7 @@ import SwiftData
     @Published var thread_id: String = "thread_id"
     @Published var run_id: String = "run_id"
     @Published var messages: [Message] = [Message]()
+    @Published var assistant_active: Bool = false
     
     struct Message: Identifiable, Equatable, Hashable, Codable {
         let id: String
@@ -32,7 +37,7 @@ import SwiftData
     
     func assistant() {
         self.messages.removeAll()
-        
+        self.assistant_active = false
         
         
         let url = URL(string: "https://api.openai.com/v1/assistants")!
@@ -40,7 +45,7 @@ import SwiftData
         request.httpMethod = "POST"
         
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.addValue("Bearer ", forHTTPHeaderField: "Authorization")
+        request.addValue("Bearer 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", forHTTPHeaderField: "Authorization")
         request.addValue("org-jGOqXYFRJHKlnkff8K836fK2", forHTTPHeaderField: "OpenAI-Organization")
         request.addValue("assistants=v1", forHTTPHeaderField: "OpenAI-Beta")
         
@@ -62,23 +67,24 @@ import SwiftData
                 DispatchQueue.main.async {
                     do {
                         if let assistant_response = try JSONSerialization.jsonObject(with: data!, options: []) as? [String: Any] {
-//                            let id = assistant_response["id"] as? String
                             self.assistant_id = {
                                 defer {
-                                    self.messages.append(Message.init(prompt: "Chat assistant (" + (assistant_response["id"] as! String).trimmingCharacters(in: .whitespacesAndNewlines) + ")", response: "My primary role is to provide ready-tested solutions and perform various code-related tasks for advanced Swift developers. I provide concise, clear, and tested code suggestions in Swift, verifying correctness before presentation. I se GitHub, GitHub Gist, transcripts of Swift tutorial videos hosted by YouTube, developer contributions to StackOverflow, and Swift Apple Developer documentation and various other resources for references and examples. I regularly reference the latest version of official Swift documentation to ensure alignment with current standards in Swift programming. I offer explanations or insights rooted in this documentation after providing a Swift code solution. While adept in other programming languages, I prioritize Swift. My abilities include code generation, execution, inspection, debugging, and optimization. I assume a high level of expertise in Swift or the relevant language; however, if unsure, ask for clarification. My aim is to strictly adhere to specific instructions given across all interactions and revisions."))
+                                    self.assistant_active = true
                                     self.thread()
                                 }
                                 return assistant_response["id"] as? String
                             }() ?? {
                                 defer {
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0, execute: {
                                         self.assistant()
                                     })
                                 }
-                                let err = ((assistant_response)["error"] as? [String: Any])!["message"] as? String
-                                self.messages.append(Message.init(prompt: "Error getting assistant:\n" + err!, response: err!))
-                                return err!
+                                let err = (assistant_response)["error"] as? [String: Any]
+                                let err_msg = err!["message"] as? String
+                                self.messages.append(Message.init(prompt: "Error getting assistant", response: err_msg!))
+                                return err_msg!
                             }()
+//                            self.messages.append(Message.init(prompt: "Chat assistant (" + self.assistant_id + ")", response: String()))
                         }
                     } catch {
                         self.messages.append(Message.init(prompt: "Error getting assistant", response: error.localizedDescription))
@@ -95,7 +101,7 @@ import SwiftData
         request.httpMethod = "POST"
         
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.addValue("Bearer ", forHTTPHeaderField: "Authorization")
+        request.addValue("Bearer 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", forHTTPHeaderField: "Authorization")
         request.addValue("org-jGOqXYFRJHKlnkff8K836fK2", forHTTPHeaderField: "OpenAI-Organization")
         request.addValue("assistants=v1", forHTTPHeaderField: "OpenAI-Beta")
         
@@ -113,7 +119,7 @@ import SwiftData
                                 self.messages.append(Message.init(prompt: "Error getting thread", response: err_msg!))
                                 return err_msg!
                             }()
-                            self.messages[self.messages.count - 1].response = "Chat thread (" + self.thread_id.trimmingCharacters(in: .whitespacesAndNewlines) + ")"
+//                            self.messages[self.messages.count - 1].response = "Chat thread (" + self.thread_id.trimmingCharacters(in: .whitespacesAndNewlines) + ")"
                         }
                     } catch {
                         self.messages.append(Message.init(prompt: "Error getting thread", response: error.localizedDescription))
@@ -134,7 +140,7 @@ import SwiftData
         request.httpBody = jsonData
         
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.addValue("Bearer ", forHTTPHeaderField: "Authorization")
+        request.addValue("Bearer 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", forHTTPHeaderField: "Authorization")
         request.addValue("org-jGOqXYFRJHKlnkff8K836fK2", forHTTPHeaderField: "OpenAI-Organization")
         request.addValue("assistants=v1", forHTTPHeaderField: "OpenAI-Beta")
         
@@ -183,7 +189,7 @@ import SwiftData
         request.httpMethod = "POST"
         
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.addValue("Bearer ", forHTTPHeaderField: "Authorization")
+        request.addValue("Bearer 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", forHTTPHeaderField: "Authorization")
         request.addValue("org-jGOqXYFRJHKlnkff8K836fK2", forHTTPHeaderField: "OpenAI-Organization")
         request.addValue("assistants=v1", forHTTPHeaderField: "OpenAI-Beta")
         
@@ -215,7 +221,7 @@ import SwiftData
         request.httpMethod = "GET"
         
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.addValue("Bearer ", forHTTPHeaderField: "Authorization")
+        request.addValue("Bearer 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", forHTTPHeaderField: "Authorization")
         request.addValue("org-jGOqXYFRJHKlnkff8K836fK2", forHTTPHeaderField: "OpenAI-Organization")
         request.addValue("assistants=v1", forHTTPHeaderField: "OpenAI-Beta")
         
@@ -250,7 +256,7 @@ import SwiftData
         request.httpMethod = "GET"
         
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.addValue("Bearer ", forHTTPHeaderField: "Authorization")
+        request.addValue("Bearer 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", forHTTPHeaderField: "Authorization")
         request.addValue("org-jGOqXYFRJHKlnkff8K836fK2", forHTTPHeaderField: "OpenAI-Organization")
         request.addValue("assistants=v1", forHTTPHeaderField: "OpenAI-Beta")
         
@@ -324,8 +330,8 @@ struct ContentView: View {
     @StateObject var chatData: ChatData = ChatData()
     
     var body: some View {
-        VStack(alignment: .center, spacing: 25.0, content: {
-            HeaderView()
+        VStack(alignment: .leading, spacing: 0.0, content: {
+            HeaderView(chatData: chatData)
                 
             ChatView(chatData: chatData)
                 
@@ -337,7 +343,6 @@ struct ContentView: View {
                 }
                 .clipShape(Capsule())
                 .safeAreaPadding(.bottom)
-                
                 .shadow(color: Color.init(uiColor: .black).opacity(0.75), radius: 6.0)
         })
         .background {
@@ -349,6 +354,7 @@ struct ContentView: View {
         .task {
             chatData.assistant()
         }
+//        .dynamicTypeSize(.xSmall)
     }
 }
 

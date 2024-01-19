@@ -17,10 +17,10 @@ struct ChatView: View {
                 List(chatData.messages) { message in
                     Section {
                         HStack(alignment: .bottom, spacing: 0.0, content: {
-                            Text(message.prompt)
+                            Text(.init(message.prompt.replacingOccurrences(of: "```", with: "`")))
+                                .textSelection(/*@START_MENU_TOKEN@*/.enabled/*@END_MENU_TOKEN@*/)
                                 .font(.body).dynamicTypeSize(.large)
                                 .font(.body).fontWeight(.thin)
-                            
                         })
                         .listRowBackground(
                             UnevenRoundedRectangle(cornerRadii: RectangleCornerRadii(topLeading: 25.0, bottomLeading: 0.0, bottomTrailing: 0.0, topTrailing: 25.0))
@@ -28,10 +28,13 @@ struct ChatView: View {
                             //                            .shadow(color: Color.gray, radius: 3.0)
                         )
                         
+                        
                         HStack(alignment: .top, spacing: 0.0, content: {
-                            Text(message.response)
+                            Text(.init(message.response.replacingOccurrences(of: "```", with: "`")))
+                                .textSelection(/*@START_MENU_TOKEN@*/.enabled/*@END_MENU_TOKEN@*/)
                                 .font(.body).dynamicTypeSize(.large)
                                 .font(.body).fontWeight(.light)
+                                
                         })
                         .listRowBackground(
                             UnevenRoundedRectangle(cornerRadii: RectangleCornerRadii(topLeading: 0.0, bottomLeading: 25.0, bottomTrailing: 25.0, topTrailing: 0.0))
@@ -52,6 +55,8 @@ struct ChatView: View {
                         }
                     }
                 })
+                .listRowSeparator(/*@START_MENU_TOKEN@*/.hidden/*@END_MENU_TOKEN@*/)
+                .listSectionSeparator(/*@START_MENU_TOKEN@*/.hidden/*@END_MENU_TOKEN@*/)
             }
             
         }
