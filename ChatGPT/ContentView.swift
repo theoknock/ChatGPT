@@ -6,7 +6,7 @@
 //
 
 
-//Bearer sk-ZT4z4AaIugoE7aIdNSM0T3BlbkFJtoLodt9mJ1Jmwq2EPJ2hsk-PLHtIjMBpKlYKlSdkubXT3BlbkFJ7cRMuB8iajUFjwlHZaeQ
+//Bearer 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
 //org-jGOqXYFRJHKlnkff8K836fK2
 
 import SwiftUI
@@ -45,7 +45,7 @@ import SwiftData
         request.httpMethod = "POST"
         
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.addValue("Bearer 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", forHTTPHeaderField: "Authorization")
+        request.addValue("Bearer ", forHTTPHeaderField: "Authorization")
         request.addValue("org-jGOqXYFRJHKlnkff8K836fK2", forHTTPHeaderField: "OpenAI-Organization")
         request.addValue("assistants=v1", forHTTPHeaderField: "OpenAI-Beta")
         
@@ -101,7 +101,7 @@ import SwiftData
         request.httpMethod = "POST"
         
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.addValue("Bearer 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", forHTTPHeaderField: "Authorization")
+        request.addValue("Bearer ", forHTTPHeaderField: "Authorization")
         request.addValue("org-jGOqXYFRJHKlnkff8K836fK2", forHTTPHeaderField: "OpenAI-Organization")
         request.addValue("assistants=v1", forHTTPHeaderField: "OpenAI-Beta")
         
@@ -140,7 +140,7 @@ import SwiftData
         request.httpBody = jsonData
         
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.addValue("Bearer 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", forHTTPHeaderField: "Authorization")
+        request.addValue("Bearer ", forHTTPHeaderField: "Authorization")
         request.addValue("org-jGOqXYFRJHKlnkff8K836fK2", forHTTPHeaderField: "OpenAI-Organization")
         request.addValue("assistants=v1", forHTTPHeaderField: "OpenAI-Beta")
         
@@ -189,7 +189,7 @@ import SwiftData
         request.httpMethod = "POST"
         
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.addValue("Bearer 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", forHTTPHeaderField: "Authorization")
+        request.addValue("Bearer ", forHTTPHeaderField: "Authorization")
         request.addValue("org-jGOqXYFRJHKlnkff8K836fK2", forHTTPHeaderField: "OpenAI-Organization")
         request.addValue("assistants=v1", forHTTPHeaderField: "OpenAI-Beta")
         
@@ -221,7 +221,7 @@ import SwiftData
         request.httpMethod = "GET"
         
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.addValue("Bearer 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", forHTTPHeaderField: "Authorization")
+        request.addValue("Bearer ", forHTTPHeaderField: "Authorization")
         request.addValue("org-jGOqXYFRJHKlnkff8K836fK2", forHTTPHeaderField: "OpenAI-Organization")
         request.addValue("assistants=v1", forHTTPHeaderField: "OpenAI-Beta")
         
@@ -256,7 +256,7 @@ import SwiftData
         request.httpMethod = "GET"
         
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.addValue("Bearer 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", forHTTPHeaderField: "Authorization")
+        request.addValue("Bearer ", forHTTPHeaderField: "Authorization")
         request.addValue("org-jGOqXYFRJHKlnkff8K836fK2", forHTTPHeaderField: "OpenAI-Organization")
         request.addValue("assistants=v1", forHTTPHeaderField: "OpenAI-Beta")
         
