@@ -29,7 +29,7 @@
         request.httpBody = jsonData
         
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.addValue("Bearer sk-fBUofInfrkH5BW5PAHfzT3BlbkFJdiBNNt499dsTbaMJlq3nsk-PLHtIjMBpKlYKlSdkubXT3BlbkFJ7cRMuB8iajUFjwlHZaeQsk-4NeIFPyHFGBw0sO3OzJ4T3BlbkFJAiqQOavRmeOiMtTuG6w2sk-mCI1swWIuFQPbdJZTx3HT3BlbkFJVhxlQK5lZjI3kwpj6jj9sk-4AUf7mRfLSKGDzWydLPJT3BlbkFJqqn2UyG5gI1kQxBt4INP", forHTTPHeaderField: "Authorization")
+        request.addValue("Bearer Bearer sk-PLHtIjMBpKlYKlSdkubXT3BlbkFJ7cRMuB8iajUFjwlHZaeQsk-4NeIFPyHFGBw0sO3OzJ4T3BlbkFJAiqQOavRmeOiMtTuG6w2sk-mCI1swWIuFQPbdJZTx3HT3BlbkFJVhxlQK5lZjI3kwpj6jj9sk-4AUf7mRfLSKGDzWydLPJT3BlbkFJqqn2UyG5gI1kQxBt4INP", forHTTPHeaderField: "Authorization")
         request.addValue("org-jGOqXYFRJHKlnkff8K836fK2", forHTTPHeaderField: "OpenAI-Organization")
         request.addValue("assistants=v1", forHTTPHeaderField: "OpenAI-Beta")
         
