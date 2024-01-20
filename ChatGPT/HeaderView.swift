@@ -29,7 +29,7 @@ struct HeaderView: View {
                     chatData.assistant()
                 }
             }, label: {
-                Label("ChatGPT 4 Swift CodePilot", systemImage: "message.badge.circle")
+                Label("SwiftAI CodePilot", systemImage: "message.badge.circle")
                     .labelStyle(HeaderViewLabelStyle(assistant_active: chatData.assistant_active))
             })
         })
